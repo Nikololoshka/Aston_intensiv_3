@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Aston_intensiv_3</string>
+    <string name="add_contact">Add contact</string>
+    <string name="contact_full_name">%1s %2s</string>
+    <string name="delete_contacts">Delete contacts</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_surname">Surname</string>
+    <string name="hint_phone_number">Phone number</string>
+    <string name="contact_editor">Contact editor</string>
+    <string name="contact_creator">Contact creator</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="contact_image">Contact image</string>
 </resources>

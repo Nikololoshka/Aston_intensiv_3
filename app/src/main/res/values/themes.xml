@@ -6,4 +6,15 @@
     </style>
 
     <style name="Theme.Aston_intensiv_3" parent="Base.Theme.Aston_intensiv_3" />
+
+    <style name="FullscreenDialogTheme" parent="Theme.Material3.DayNight.DialogWhenLarge">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/FullscreenDialogTheme.Window</item>
+    </style>
+
+    <style name="FullscreenDialogTheme.Window" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/anim_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_out</item>
+    </style>
+
 </resources>
