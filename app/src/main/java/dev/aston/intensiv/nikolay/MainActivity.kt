@@ -1,23 +1,21 @@
 package dev.aston.intensiv.nikolay
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import dev.aston.intensiv.nikolay.ui.list.ContactAdapter
-import dev.aston.intensiv.nikolay.model.ContactItem
 import dev.aston.intensiv.nikolay.databinding.ActivityMainBinding
+import dev.aston.intensiv.nikolay.model.ContactItem
 import dev.aston.intensiv.nikolay.model.ContactSupplyer
 import dev.aston.intensiv.nikolay.ui.changeVisibility
 import dev.aston.intensiv.nikolay.ui.editor.ContactEditorAction
 import dev.aston.intensiv.nikolay.ui.editor.ContactEditorDialog
+import dev.aston.intensiv.nikolay.ui.list.ContactAdapter
 import dev.aston.intensiv.nikolay.ui.list.ContactAdapterListener
-import dev.aston.intensiv.nikolay.ui.list.ReorderItemHelper
 import dev.aston.intensiv.nikolay.ui.list.MultiItemSelectionTracker
+import dev.aston.intensiv.nikolay.ui.list.ReorderItemHelper
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -76,6 +74,7 @@ class MainActivity : AppCompatActivity(), ContactAdapterListener {
                     viewModel.enableDeleteContactMode(true)
                     true
                 }
+
                 else -> false
             }
         }

@@ -40,9 +40,12 @@ android {
 
 dependencies {
 
+    implementation(libs.adapterdelegates.dsl)
+    implementation(libs.adapterdelegates.dsl.layoutcontainer)
+    implementation(libs.adapterdelegates.dsl.viewbinding)
 
-    implementation("androidx.fragment:fragment-ktx:1.6.2")
-    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
+    implementation(libs.androidx.fragment.ktx)
+    // implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
 
     implementation(libs.gson)
 
