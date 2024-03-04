@@ -14,7 +14,7 @@ class ContactAdapter(
     AsyncDifferConfig
         .Builder(ContactDiffUtil)
         .build()
-), ReorderableAdapter, SelectionObserver {
+), ReorderObserver, SelectionObserver {
 
     init {
         tracker.registerObserver(this)
@@ -40,7 +40,7 @@ class ContactAdapter(
 
     override fun onItemMoved(from: Int, to: Int) {
         listener.onItemMoved(from, to)
-        // notifyItemMoved(from, to)
+        notifyItemMoved(from, to)
     }
 
     override fun onClearSelection(positions: Iterable<Int>) {

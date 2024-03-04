@@ -3,7 +3,7 @@ package dev.aston.intensiv.nikolay.ui.list
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-interface ReorderableAdapter {
+interface ReorderObserver {
 
     fun onItemMoved(from: Int, to: Int)
 }
@@ -13,7 +13,7 @@ class ReorderItemHelper private constructor(
     private val callback: ReorderItemCallback
 ): ItemTouchHelper(callback) {
 
-    constructor(adapter: ReorderableAdapter): this(ReorderItemCallback(adapter))
+    constructor(observer: ReorderObserver): this(ReorderItemCallback(observer))
 
     fun enableReorder(enable: Boolean) {
         callback.isReorder = enable
@@ -21,7 +21,7 @@ class ReorderItemHelper private constructor(
 }
 
 private class ReorderItemCallback(
-    private val adapter: ReorderableAdapter
+    private val observer: ReorderObserver
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
 ) {
@@ -38,7 +38,7 @@ private class ReorderItemCallback(
     ): Boolean {
         val from = viewHolder.adapterPosition
         val to = target.adapterPosition
-        adapter.onItemMoved(from, to)
+        observer.onItemMoved(from, to)
         return true
     }
 

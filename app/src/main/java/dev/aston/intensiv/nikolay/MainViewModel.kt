@@ -12,11 +12,20 @@ class MainViewModel : ViewModel() {
     private var contactIdPool = 0
 
     // TODO("Оптимизировать операции со списком контактов")
-    private val state = MutableStateFlow(ContactState.empty())
+    private var contacts: MutableList<ContactItem> = mutableListOf()
+
+    private val state = MutableStateFlow(
+        ContactState(
+            isDeleteContactMode = false,
+            contacts = contacts
+        )
+    )
     val contactState: StateFlow<ContactState> = state.asStateFlow()
 
 
-    fun loadContacts(contacts: List<ContactItem>) {
+    fun loadContacts(newContacts: List<ContactItem>) {
+        contacts = newContacts.toMutableList()
+
         state.value = state.value.copy(contacts = contacts)
         contactIdPool = contacts.size
     }
@@ -25,49 +34,53 @@ class MainViewModel : ViewModel() {
         state.value = state.value.copy(isDeleteContactMode = enable)
     }
 
-    fun updateContact(item: ContactItem) {
-        state.value = state.value.let { currentState ->
-            if (item.id == -1) {
-                currentState.copy(contacts = currentState.contacts.toMutableList().apply {
-                    add(item.copy(id = ++contactIdPool))
-                })
-            } else {
-                currentState.copy(contacts = currentState.contacts.toMutableList().apply {
-                    val itemIndex = indexOfFirst { it.id == item.id }
-                    if (itemIndex != -1) {
-                        set(itemIndex, item)
-                    }
-                })
+    private fun addNewContact(contact: ContactItem) {
+        val newContacts = contacts.toMutableList().apply {
+            add(contact.copy(id = ++contactIdPool))
+        }
+
+        contacts = newContacts
+        state.value = state.value.copy(contacts = newContacts)
+    }
+
+    private fun editContact(contact: ContactItem) {
+        val newContacts = contacts.let { currentContacts ->
+            val updateContactIndex = currentContacts.indexOfFirst { it.id == contact.id }
+            if (updateContactIndex == -1) {
+                return
             }
+
+            val newContacts = currentContacts.toMutableList()
+            newContacts[updateContactIndex] = contact
+            newContacts
+        }
+
+        contacts = newContacts
+        state.value = state.value.copy(contacts = newContacts)
+    }
+
+    fun updateContact(contact: ContactItem) {
+        if (contact.id == -1) {
+            addNewContact(contact)
+        } else {
+            editContact(contact)
         }
     }
 
     fun moveContactItem(from: Int, to: Int) {
-        state.value = state.value.let { currentState ->
-            val newList = currentState.contacts.toMutableList()
-            Collections.swap(newList, from, to)
-            currentState.copy(contacts = newList)
-        }
+        Collections.swap(contacts, from, to)
     }
 
     fun deleteContacts(selected: Set<Int>) {
-        state.value = state.value.let { currentState ->
-            val newList = currentState.contacts.filterIndexed { index, _ ->
-                !selected.contains(index)
-            }
-            currentState.copy(isDeleteContactMode = false, contacts = newList)
-        }
+        val newContacts: MutableList<ContactItem> = mutableListOf()
+        contacts.filterIndexedTo(newContacts) { index, _ -> !selected.contains(index) }
+
+        contacts = newContacts
+        state.value = state.value.copy(contacts = newContacts)
     }
 }
 
 data class ContactState(
     val isDeleteContactMode: Boolean,
     val contacts: List<ContactItem>
-) {
-    companion object {
-        fun empty() = ContactState(
-            isDeleteContactMode = false,
-            contacts = mutableListOf()
-        )
-    }
-}
+)

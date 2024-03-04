@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity(), ContactAdapterListener {
         }
         binding.deleteContacts.setOnClickListener {
             viewModel.deleteContacts(selectTracker.currentSelected)
+            viewModel.enableDeleteContactMode(false)
         }
     }
 
