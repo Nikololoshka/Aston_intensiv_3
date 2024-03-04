@@ -16,6 +16,7 @@ import dev.aston.intensiv.nikolay.ui.list.ContactAdapter
 import dev.aston.intensiv.nikolay.ui.list.ContactAdapterListener
 import dev.aston.intensiv.nikolay.ui.list.MultiItemSelectionTracker
 import dev.aston.intensiv.nikolay.ui.list.ReorderItemHelper
+import dev.aston.intensiv.nikolay.ui.list.delegate.ContactDelegationAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -42,7 +43,8 @@ class MainActivity : AppCompatActivity(), ContactAdapterListener {
             viewModel.loadContacts(contacts)
         }
 
-        val adapter = ContactAdapter(selectTracker, this)
+        val adapter = ContactDelegationAdapter(selectTracker, this)
+        selectTracker.registerObserver(adapter)
         binding.contactsList.adapter = adapter
 
         val reorderItemHelper = ReorderItemHelper(adapter)

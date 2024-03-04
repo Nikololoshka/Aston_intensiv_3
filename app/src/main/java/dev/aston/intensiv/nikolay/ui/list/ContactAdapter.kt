@@ -16,10 +16,6 @@ class ContactAdapter(
         .build()
 ), ReorderObserver, SelectionObserver {
 
-    init {
-        tracker.registerObserver(this)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val binding = ContactItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ContactViewHolder(binding, this::onViewHolderClicked)

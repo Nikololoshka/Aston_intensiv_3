@@ -15,7 +15,13 @@ fun contactDelegate(
 ) {
     itemView.setOnClickListener { itemClickedListener(bindingAdapterPosition) }
 
-    bind {
+    bind { payloads ->
+        if (payloads.isNotEmpty() && payloads[0] == true) {
+            binding.root.setBackgroundResource(R.drawable.background_selected)
+        } else {
+            binding.root.setRippleEffect()
+        }
+
         binding.fullName.text = context.getString(
             R.string.contact_full_name, item.name, item.surname
         )

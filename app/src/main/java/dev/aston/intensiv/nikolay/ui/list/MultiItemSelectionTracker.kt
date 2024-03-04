@@ -21,7 +21,7 @@ interface SelectionTracker {
 
     fun select(position: Int)
 
-    fun registerObserver(adapter: SelectionObserver)
+    fun registerObserver(observer: SelectionObserver)
 
     fun unregisterObserver()
 }
@@ -44,8 +44,8 @@ class MultiItemSelectionTracker(
             }
         }
 
-    override fun registerObserver(adapter: SelectionObserver) {
-        selectionObserver = adapter
+    override fun registerObserver(observer: SelectionObserver) {
+        selectionObserver = observer
     }
 
     private fun clearSelection() {
