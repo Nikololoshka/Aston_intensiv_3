@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 
 
-interface SelectableAdapter {
+
+
+interface SelectionObserver {
 
     fun onClearSelection(positions: Iterable<Int>)
 
@@ -19,15 +21,16 @@ interface SelectionTracker {
 
     fun select(position: Int)
 
-    fun setup(adapter: SelectableAdapter)
+    fun registerObserver(adapter: SelectionObserver)
+
+    fun unregisterObserver()
 }
 
-// TODO("Избавиться от взаимного хранения ссылок адаптера и селектора")
 class MultiItemSelectionTracker(
     private val stateName: String
 ): SelectionTracker {
 
-    private var selectableAdapter: SelectableAdapter? = null
+    private var selectionObserver: SelectionObserver? = null
 
     private val selection: MutableSet<Int> = mutableSetOf()
 
@@ -41,12 +44,12 @@ class MultiItemSelectionTracker(
             }
         }
 
-    override fun setup(adapter: SelectableAdapter) {
-        selectableAdapter = adapter
+    override fun registerObserver(adapter: SelectionObserver) {
+        selectionObserver = adapter
     }
 
     private fun clearSelection() {
-        selectableAdapter?.onClearSelection(selection)
+        selectionObserver?.onClearSelection(selection)
         selection.clear()
     }
 
@@ -64,8 +67,8 @@ class MultiItemSelectionTracker(
         state.putBundle(stateName, savedState)
     }
 
-    fun onDestroy() {
-        selectableAdapter = null
+    override fun unregisterObserver() {
+        selectionObserver = null
     }
 
     override fun isSelected(position: Int): Boolean {
@@ -78,7 +81,7 @@ class MultiItemSelectionTracker(
         } else {
             selection.remove(position)
         }
-        selectableAdapter?.onItemSelected(position)
+        selectionObserver?.onItemSelected(position)
     }
 
     companion object {

@@ -14,10 +14,10 @@ class ContactAdapter(
     AsyncDifferConfig
         .Builder(ContactDiffUtil)
         .build()
-), ReorderableAdapter, SelectableAdapter {
+), ReorderableAdapter, SelectionObserver {
 
     init {
-        tracker.setup(this)
+        tracker.registerObserver(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {

@@ -2,6 +2,7 @@ package dev.aston.intensiv.nikolay
 
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -127,6 +128,6 @@ class MainActivity : AppCompatActivity(), ContactAdapterListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        selectTracker.onDestroy()
+        selectTracker.unregisterObserver()
     }
 }
