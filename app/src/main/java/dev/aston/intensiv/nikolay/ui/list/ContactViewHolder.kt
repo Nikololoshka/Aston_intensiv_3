@@ -12,7 +12,7 @@ class ContactViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
-        itemView.setOnClickListener { onItemClicked(adapterPosition) }
+        itemView.setOnClickListener { onItemClicked(bindingAdapterPosition) }
     }
 
     fun bind(contact: ContactItem, isSelected: Boolean) {
